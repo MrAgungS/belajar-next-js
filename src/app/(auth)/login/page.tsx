@@ -2,36 +2,43 @@
 
 import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import React from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import React, { useState } from "react";
 
 
 
 export default function LoginPage(){
 
   const{push} = useRouter();
-  const handleLogin = async (e: any) =>{
-    
-    e.preventDefault();
-    try{
-      const res = await signIn("credentials", {
-        redirect: false,
-        email: e.target.email.value,
-        password: e.target.password.value,
-        callbackUrl: "/dasboard",
-      })
-      if (!res?.error) {
-        push("/dashboard")
-      }else{
-        console.log(res.error);
-        
-      }
-    }
-    catch (err) {
-      console.log(err);
-      
-    }
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || ("/")
+
+  const[error, setError] = useState('');
+  const[isLoading, setIsLoading] = useState(false);
+  
+  const handleLogin = async (e: any) => {
+  e.preventDefault();
+  setError("");
+  setIsLoading(true);
+
+  const res = await signIn("credentials", {
+    redirect: false,
+    email: e.target.email.value,
+    password: e.target.password.value,
+    callbackUrl, 
+  });
+
+  if (res?.error) {
+    e.target.reset();
+    console.log("Login failed:", res.error);
+    alert("Email atau password salah");
+  } else {
+    setIsLoading(false)
   }
+
+  
+  push(callbackUrl);
+};
 
     return(
     <>
@@ -86,14 +93,22 @@ export default function LoginPage(){
 
             <div>
               <button
+                disabled={isLoading}
                 type="submit"
                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                Sign in
+                {isLoading ? 'Loading...' : 'Login Your Account'}
               </button>
             </div>
           </form>
-
+          <br />
+          <div>
+            <button 
+              type="button"
+              onClick={() => signIn('google', {callbackUrl, redirect: false})}
+              className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            >Login With Google</button>
+          </div>
           <p className="mt-10 text-center text-sm/6 text-gray-500">
             Dont Have Account?{' '}
             <Link  href="/register" className="font-semibold text-indigo-600 hover:text-indigo-500">
