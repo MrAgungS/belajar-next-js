@@ -24,7 +24,7 @@ export default function RegisterPage(){
     if (res.status === 200) {
       e.target.reset();
       setIsLoading(false);
-      push("/ogin");
+      push("/login");
     } else {
       setError("Email Already Exists");
       setIsLoading(false);
@@ -96,10 +96,11 @@ export default function RegisterPage(){
 
             <div>
               <button
+                disabled={isLoading}
                 type="submit"
                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                Sign in
+                {isLoading ? "Loading..." : "Sign Up"}
               </button>
             </div>
           </form>

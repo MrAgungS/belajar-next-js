@@ -1,13 +1,15 @@
 import { NextResponse, type NextRequest } from "next/server";
+import withAuth from "./proxys/withAuth";
 
 
-export default function proxy(request: NextRequest){
-    const isLogin = true;
-    if (!isLogin) {
-        return NextResponse.redirect(new URL("/login", request.url));
-    }
+export function mainProxy(request: NextRequest){
+    const res = NextResponse.next();
+    return res;
 }
 
-export const config = {
-    matcher: ["/dashboard/:path*"],
-}
+export default withAuth(mainProxy, [
+    "/dashboard", 
+    "/profiles", 
+    "/login",
+    "/register"
+])
