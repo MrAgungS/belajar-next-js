@@ -5,7 +5,7 @@ import { initializeApp } from "firebase/app";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBuF7am94UqdScjAe1I5TxKq4S6Xe9HMko",
+  apiKey: process.env.GOOGLE_API_KEY,
   authDomain: "coba-next-app-c11.firebaseapp.com",
   projectId: "coba-next-app-c11",
   storageBucket: "coba-next-app-c11.firebasestorage.app",
