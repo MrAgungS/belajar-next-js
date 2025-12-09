@@ -66,11 +66,9 @@ export async function login(data : {email :string}) {
         ...doc.data(),
     }))
 
-    if (user) {
-        return user[0];
-    } else {
-        return null;
-    }
+    if (user.length === 0) return null;
+
+    return user[0];
 }
 
 export async function  loginWithGoogle(data: any, callback: any) {

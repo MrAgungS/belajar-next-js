@@ -28,6 +28,7 @@ export default async function ProductPage(props: ProductPageProps) {
                                 src={product.image}
                                 width={300}
                                 height={300}
+                                loading="lazy"
                             />
                         </Link>
 

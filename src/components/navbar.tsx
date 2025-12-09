@@ -1,5 +1,6 @@
 "use client"
 import { signIn, signOut, useSession } from "next-auth/react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -28,12 +29,18 @@ export default function NavBar(){
                 </div>
                 <div>
                     {status === 'authenticated' ? (
-                        <div className="flex">
-                        <h4 className=" text-white text-center">{session?.user?.fullname}</h4>
-                        <button 
-                        className="bg-white rounded-md px-3 text-sm h-7 cursor-pointer"
-                        onClick={() => signOut()}
-                        >Log Out</button>
+                        <div className="flex justify-center items-center">
+                            <Image
+                                src="/images/profile.jpeg" alt="profile"
+                                width={30}
+                                height={30}
+                                className="w-10 h-10 rounded-full mr-3"
+                            ></Image>
+                            <h4 className=" text-white text-center">{session?.user?.fullname}</h4>
+                            <button 
+                            className="bg-white rounded-md px-3 text-sm h-7 cursor-pointer"
+                            onClick={() => signOut()}
+                            >Log Out</button>
                         </div>
                     ): (
                     <button 

@@ -1,6 +1,9 @@
-import Modal from "@/components/core/Modal";
+
 import { getData } from "@/services/product";
+import dynamic from "next/dynamic";
 import Image from "next/image";
+
+const Modal = dynamic(() => import('@/components/core/Modal'))
 
 export default async function DetailProductPage(props: any) {
     const {params} = props;
